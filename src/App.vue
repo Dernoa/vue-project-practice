@@ -1,25 +1,26 @@
 <template>
-    <div>
-        <div><button @click="addLike">Like</button></div>
-        <div>Кол-во лайков {{likes}}</div>
+    <div class="app">
+        <navbar></navbar>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+import Navbar from './UI/Navbar.vue';
     export default {
-        data(){
-            return {
-                likes: 0,
-            }
-        },
-        methods: {
-            addLike(){
-                this.likes += 1;
-            }
+        components: {
+            Navbar
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+}
+
 
 </style>
