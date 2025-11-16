@@ -19,7 +19,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     h1 {
         display: block;
     }

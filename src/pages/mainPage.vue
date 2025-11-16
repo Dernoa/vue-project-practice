@@ -2,7 +2,7 @@
     <div class="page">
         <div class="main">
             <div>
-                <button>Начать викторину</button>
+                <button @click="$router.push('/game')">Начать викторину</button>
             </div>
             <div>
                 Последние результаты
@@ -21,9 +21,10 @@
     div h1{
         text-align: center;
     }
-    .page{
+    .main{
         display: flex;
         flex-direction: column;
+        align-items: center;
         min-height: 100vh;
     }
 

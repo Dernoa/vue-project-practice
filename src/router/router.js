@@ -2,6 +2,7 @@ import MainPage from '@/pages/mainPage.vue'
 import ResultsPage from '@/pages/resultsPage.vue'
 import SettingsPage from '@/pages/settingsPage.vue'
 import StatisticPage from '@/pages/statisticPage.vue'
+import gamePage from '@/pages/gamePage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -22,6 +23,10 @@ const router = createRouter({
     {
       path: '/statistics',
       component: StatisticPage
+    },
+    {
+      path: '/game',
+      component: gamePage
     },
   ],
 })
