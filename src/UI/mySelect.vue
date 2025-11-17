@@ -26,5 +26,13 @@
 </script>
 
 <style scoped>
-
+    select{
+        background: none;
+        font-weight: bold;
+        border: 3px solid #0a2a2a;
+    }
+    select option{
+        background-color: #fff7b1;
+        font-weight: bold;
+    }
 </style>

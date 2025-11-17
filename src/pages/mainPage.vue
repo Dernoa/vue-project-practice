@@ -1,19 +1,21 @@
 <template>
     <div class="page">
-        <div class="main">
-            <div>
-                <button @click="$router.push('/game')">Начать викторину</button>
-            </div>
-            <div>
-                Последние результаты
-            </div>
+        <div class="play">
+            <my-button @click="$router.push('/game')">Start Quiz</my-button>    
+        </div>
+        <div class="results">
+            Last Results
         </div>
     </div>
 </template>
 
 <script>
+import MyButton from '@/UI/myButton.vue';
+
     export default {
-        
+        components: {
+            MyButton,
+        }
     }
 </script>
 
@@ -21,11 +23,24 @@
     div h1{
         text-align: center;
     }
-    .main{
+    .page{
         display: flex;
         flex-direction: column;
+        align-items: stretch;
+        min-height: 89vh;
+        background-color: #fff7b1;
+    }
+    .play{
+        display: flex;
         align-items: center;
-        min-height: 100vh;
+        justify-content: center;
+        flex-grow: 1;
+    }
+    .results{
+        display: flex;
+        justify-content: center;
+        flex-grow: 2;
+        font-weight: bold;
     }
 
 </style>

@@ -20,6 +20,15 @@ import Navbar from './UI/Navbar.vue';
     padding: 0;
     box-sizing: border-box;
     font-family: monospace;
+    font-size: 2vh;
+}
+
+* h1 {
+    font-size: 4vh;
+}
+
+* h2 {
+    font-size: 3vh;
 }
 
 

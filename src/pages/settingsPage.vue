@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="page">
         <h1>Choose game difficulty</h1>
         <my-select v-model="selectedDifficulty" :options="difficultyOptions"></my-select>
         
@@ -16,6 +16,7 @@
             id='inputNumber'
             v-model.number="questionCount"
         >
+        <h2>All changes saves automatically</h2>
     </div>
 </template>
 
@@ -98,28 +99,28 @@ export default {
 </script>
 
 <style scoped>
-    .main{
+    .page{    
+        min-height: 89vh;
+        background-color: #fff7b1;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 20px;
     }
-    
-    h1 {
-        margin: 0;
-        margin-bottom: 10px;
-    }
-    
+       
     label {
         text-align: center;
     }
     
     #inputNumber {
         padding: 10px;
-        font-size: 16px;
-        border: 2px solid #ccc;
+        font-weight: bold;
+        border: 3px solid #0a2a2a;
+        background: none;
         border-radius: 5px;
         width: 100px;
         text-align: center;
     }
+
+
 </style>

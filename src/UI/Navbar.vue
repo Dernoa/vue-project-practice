@@ -5,7 +5,6 @@
             <my-button @click="$router.push('/')">Menu</my-button>
             <my-button @click="$router.push('/settings')">Settings</my-button>
             <my-button @click="$router.push('/results')">Results</my-button>
-            <my-button @click="$router.push('/statistics')">Statistics</my-button>
         </div>
     </div>
 </template>
@@ -24,7 +23,8 @@
         display: block;
     }
     .navbar{
-        background-color: lightgray;
+        min-height: 11vh;
+        background-color: #33b49c;
         box-sizing: 2px 2px 4px gray;
         display: flex;
         flex-direction: column;

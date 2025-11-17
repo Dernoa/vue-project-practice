@@ -1,10 +1,9 @@
 <template>
-    <div>
-        <div v-if="loading">Loading...</div>
+    <div class="page">
+        <div v-if="loading" class="loading">Loading...</div>
         <div v-if="error" class="error">{{ error }}</div>
 
-        <div v-if="questions.length > 0 && !gameCompleted">
-            <h1>Questions loaded!</h1>
+        <div v-if="questions.length > 0 && !gameCompleted" class="question-label">
             <h2>Question: {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h2>
             <div class="progress-bar">
                 <div class="progress-fill" :style="{ width: progress + '%' }"></div>
@@ -58,6 +57,7 @@
 <script>
 import { useGameSettingsStore } from '@/stores/game-settings';
 import { useGameAnswers } from '@/stores/game-answers';
+import { useGameResults } from '@/stores/game-results';
 import myButton from '@/UI/myButton.vue';
 
 export default {
@@ -177,11 +177,9 @@ export default {
 
         completeGame() {
             this.gameCompleted = true;
-            console.log('Game completed! Results:', {
-                correct: this.correctAnswersCount,
-                total: this.questions.length,
-                percentage: this.correctPercentage
-            });
+            const settingsStore = useGameSettingsStore();
+            const saveResults = useGameResults();
+            saveResults.setGameData( settingsStore.difficulty,settingsStore.category,this.questions.length,this.correctPercentage)
         },
 
         restartGame() {
@@ -212,17 +210,24 @@ export default {
 </script>
 
 <style scoped>
+.page {
+    min-height: 89vh;
+    background-color: #fff7b1;
+}
 .error {
     color: red;
     font-weight: bold;
 }
 
+.loading{
+    text-align: center;
+}
+
 .question {
     margin: 20px 0;
     padding: 20px;
-    border: 2px solid #e1e5e9;
+    border: 3px solid #33b49c;
     border-radius: 12px;
-    background: white;
 }
 
 .question-text {
@@ -242,6 +247,10 @@ export default {
     text-align: center;
     font-weight: bold;
     font-size: 1.1rem;
+}
+
+.question-label {
+    text-align: center;
 }
 
 .progress-bar {
