@@ -102,7 +102,6 @@ export default {
     },
     mounted() {
         this.loadQuestions();
-        console.log('Game begin with settings:', this.gameSettings);
     },
     methods: {
         async loadQuestions() {
@@ -124,7 +123,6 @@ export default {
                 params.append('type', 'boolean');
 
                 const url = `https://opentdb.com/api.php?${params.toString()}`;
-                console.log('Fetching questions from:', url);
 
                 const response = await fetch(url);
                 
@@ -136,7 +134,6 @@ export default {
                 
                 if (data.response_code === 0) {
                     this.questions = data.results;
-                    console.log('Questions loaded:', this.questions);
                 } else {
                     throw new Error('API returned error: ' + data.response_code);
                 }
@@ -159,12 +156,7 @@ export default {
             
             const answersStore = useGameAnswers();
             answersStore.setAnswer(this.currentQuestionIndex, isCorrect);
-            
-            console.log(`Question ${this.currentQuestionIndex + 1}:`, {
-                userAnswer,
-                correctAnswer, 
-                isCorrect
-            });
+
 
             setTimeout(() => {
                 if (this.currentQuestionIndex < this.questions.length - 1) {

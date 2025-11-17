@@ -1,6 +1,6 @@
 <template>
     <div class="navbar">
-        <H1>QuizMaster</H1>
+        <h1>QuizMaster</h1>
         <div class="navbar_btns">
             <my-button @click="$router.push('/')">Menu</my-button>
             <my-button @click="$router.push('/settings')">Settings</my-button>
