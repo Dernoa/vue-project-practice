@@ -4,22 +4,49 @@
         <div v-if="error" class="error">{{ error }}</div>
 
         <div v-if="questions.length > 0 && !gameCompleted" class="question-label">
-            <h2>Question: {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+            <div v-if="currentQuestion.type == 'boolean'">
+                <h2>Question: {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">
+                        <strong>Question {{ currentQuestionIndex + 1 }}:</strong> 
+                        {{ decodeHtml(currentQuestion.question) }}
+                    </div>
+                    <div class="answers">
+                        <my-button @click="checkAnswer('True')">True</my-button>
+                        <my-button @click="checkAnswer('False')">False</my-button>
+                    </div>
+                    <div v-if="userAnswers.has(currentQuestionIndex)" class="answer-status">
+                        {{ userAnswers.get(currentQuestionIndex) ? '✅ Correct' : '❌ Wrong' }}
+                    </div>
+                </div>
             </div>
-            
-            <div class="question">
-                <div class="question-text">
-                    <strong>Question {{ currentQuestionIndex + 1 }}:</strong> 
-                    {{ decodeHtml(currentQuestion.question) }}
+            <div v-if="currentQuestion.type == 'multiple'">
+                <h2>Question: {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" :style="{ width: progress + '%' }"></div>
                 </div>
-                <div class="answers">
-                    <my-button @click="checkAnswer(true)">True</my-button>
-                    <my-button @click="checkAnswer(false)">False</my-button>
-                </div>
-                <div v-if="userAnswers.has(currentQuestionIndex)" class="answer-status">
-                    {{ userAnswers.get(currentQuestionIndex) ? '✅ Correct' : '❌ Wrong' }}
+                
+                <div class="question">
+                    <div class="question-text">
+                        <strong>Question {{ currentQuestionIndex + 1 }}:</strong> 
+                        {{ decodeHtml(currentQuestion.question) }}
+                    </div>
+                    <div class="answers">
+                        <my-button 
+                            v-for="(answer, index) in currentQuestion.incorrect_answers" 
+                            :key="index"
+                            @click="checkAnswer(answer)"
+                        >
+                            {{ answer }}
+                        </my-button>
+                    </div>
+                    <div v-if="userAnswers.has(currentQuestionIndex)" class="answer-status">
+                        {{ userAnswers.get(currentQuestionIndex) ? '✅ Correct' : '❌ Wrong' }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +129,6 @@ export default {
     },
     mounted() {
         this.loadQuestions();
-        console.log('Game begin with settings:', this.gameSettings);
     },
     methods: {
         async loadQuestions() {
@@ -121,10 +147,8 @@ export default {
                     params.append('difficulty', this.gameSettings.difficulty);
                 }
 
-                params.append('type', 'boolean');
 
-                const url = `https://opentdb.com/api.php?${params.toString()}`;
-                console.log('Fetching questions from:', url);
+                const url = `https://opentdb.com/api.php?${params.toString()}`;;
 
                 const response = await fetch(url);
                 
@@ -136,7 +160,15 @@ export default {
                 
                 if (data.response_code === 0) {
                     this.questions = data.results;
-                    console.log('Questions loaded:', this.questions);
+                    this.questions.forEach(question => {
+                        if(question.incorrect_answers.length != 1){
+                            question.incorrect_answers.splice(
+                            Math.floor(Math.random() * 4), 
+                            0, 
+                            question.correct_answer
+                        );
+                        }
+                    });
                 } else {
                     throw new Error('API returned error: ' + data.response_code);
                 }
@@ -151,7 +183,7 @@ export default {
         
         checkAnswer(userAnswer) {
             const question = this.currentQuestion;
-            const correctAnswer = question.correct_answer === 'True'; 
+            const correctAnswer = question.correct_answer; 
             
             const isCorrect = userAnswer === correctAnswer;
 
@@ -160,11 +192,6 @@ export default {
             const answersStore = useGameAnswers();
             answersStore.setAnswer(this.currentQuestionIndex, isCorrect);
             
-            console.log(`Question ${this.currentQuestionIndex + 1}:`, {
-                userAnswer,
-                correctAnswer, 
-                isCorrect
-            });
 
             setTimeout(() => {
                 if (this.currentQuestionIndex < this.questions.length - 1) {
