@@ -3,9 +3,6 @@
         <div class="play">
             <my-button @click="$router.push('/game')">Start Quiz</my-button>    
         </div>
-        <div class="results">
-            Last Results
-        </div>
     </div>
 </template>
 
@@ -36,11 +33,4 @@ import MyButton from '@/UI/myButton.vue';
         justify-content: center;
         flex-grow: 1;
     }
-    .results{
-        display: flex;
-        justify-content: center;
-        flex-grow: 2;
-        font-weight: bold;
-    }
-
 </style>

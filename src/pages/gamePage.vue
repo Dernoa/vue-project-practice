@@ -148,7 +148,7 @@ export default {
                 }
 
 
-                const url = `https://opentdb.com/api.php?${params.toString()}`;;
+                const url = `https://opentdb.com/api.php?${params.toString()}`;
 
                 const response = await fetch(url);
                 
